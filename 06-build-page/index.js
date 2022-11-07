@@ -26,10 +26,12 @@ async function getTemplate(){
     const filenames = await fs.promises.readdir(path.join(__dirname, 'components'), {withFileTypes: true});
     let obj = {}
     for (let file of filenames){
-      let fileName = file.name.split('.')[0];
-      if (template.includes(`{{${fileName}}}`)){
-        let fileData = await readFile(file);
-        obj[fileName] = fileData;
+      if (file.name.split('.')[1] === 'html'){
+        let fileName = file.name.split('.')[0];
+        if (template.includes(`{{${fileName}}}`)){
+          let fileData = await readFile(file);
+          obj[fileName] = fileData;
+        }
       }
     }
     for (let i = 0; i < Object.keys(obj).length; i++){
